@@ -1,3 +1,3 @@
 ﻿# handwriting_app
 
- ![Streamlit](https://kimuniiiiiiii-handwriting-app-app-z507ha.streamlit.app?style=flat)
+ ![Streamlit](https://kimuniiiiiiii-handwriting-app-app-z507ha.streamlit.app)
