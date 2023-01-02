@@ -2,3 +2,4 @@ streamlit
 streamlit-drawable-canvas
 torch
 matplotlib
+seaborn
