@@ -29,7 +29,7 @@ def main():
     with st.spinner(f"Loading {selection} ..."):
         page.write()
     
-    st.sidebar.info("**Author:** [Yuya Kimura](https://github.com/kimuniiiiiiii)")
+    st.sidebar.info("**Author, Developer:** [Yuya Kimura](https://github.com/kimuniiiiiiii)")
 
 if __name__ == "__main__":
 	main()
