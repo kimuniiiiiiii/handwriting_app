@@ -92,15 +92,9 @@ md = """
 - 正解率は筆跡に依存すると思われるが、自分の手書きでは6, 8, 9が不正解となりやすい。MNISTにやや過学習しているか。正則化や平均化など試すとアウトオブサンプルなテストデータの読み取り精度向上出来るのではないか。
 - MNISTは28×28と低解像度のため、モデルは低解像度前提のモデルとなっている。人が認識可能な程度で少し解像度の高い学習データを用いると、人の直感に整合的な結果が得られるのではないか。
 
-# 推論モデルについて
 
+# 推論モデル
 ###### pytorchでConvolutional Neural Networkによるモデル構築を行い、MNIST（28×28の手書き数字画像60,000枚）で学習を行いました。
-----------------------------------------------------------------
-### Learning
-- optimizer : SGD (learning rate=0.01, momentum=0.9)
-- loss function     : Cross entropy loss
-- epoch     : 20
-- batch size: 100
 
 ----------------------------------------------------------------
 ### Model
@@ -141,4 +135,12 @@ class CNN(nn.Module):
         return h
 
 ```
+
+# 学習
+### Learning
+- optimizer : SGD (learning rate=0.01, momentum=0.9)
+- loss function     : Cross entropy loss
+- epoch     : 20
+- batch size: 100
+
 """
