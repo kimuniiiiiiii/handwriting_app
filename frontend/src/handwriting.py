@@ -1,18 +1,19 @@
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 import seaborn as sns
-import torch
+# import torch
 
 from PIL import Image, ImageOps
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from src.cnn import CNN
+import json
+import requests
+header = {'Content-Type': 'application/json'}
+# url3 = "http://localhost:8000/predict_cnn"
+url3 = "http://backend.docker:8000/predict_cnn"
 
-# load model
-model = CNN()
-model.load_state_dict(torch.load('model/cnn.pt', map_location=torch.device('cpu')))
 
 drawing_mode = 'freedraw'
 stroke_width = 20
@@ -58,34 +59,35 @@ def canvas():
         img = img.convert(mode="L")
         img = ImageOps.invert(img)
         img_resize_lanczos = img.resize((width, height), Image.Resampling.LANCZOS)
-
+        
         ar_resize = np.array(img_resize_lanczos)
-        ar_resize = ar_resize - ar_resize.min()
-        ar_resize = ar_resize/ar_resize.max()
-        ar_resize = ar_resize[np.newaxis, np.newaxis, :, :]
-        ts_resize = torch.from_numpy(ar_resize.astype('float32'))
+        if np.std(ar_resize):
+            ar_resize = ar_resize - ar_resize.min()
+            ar_resize = ar_resize/ar_resize.max()
+            lst_data = ar_resize.tolist()
+            data = json.dumps(lst_data)
+            
+            # Machine Learning API
+            response = requests.request("POST", url3, headers=header, data=data)
+            
+            d = json.loads(response.content)
+            s_softmax_output = pd.Series(d)
 
-        # バッチサイズ1なので、1つ目の出力だけ取り出す
-        output = model(ts_resize)[0]
-        s_output = pd.Series(output.detach().numpy())
-        s_softmax_output = np.exp(s_output)/np.sum(np.exp(s_output))
+            # 最も確率の高い数字を抽出
+            max_estimates = np.argmax(s_softmax_output)
+            if max_estimates>=0:
+                st.header(f'あなたの書いた数字は「{max_estimates}」ですか？')
 
-
-        # 最も確率の高い数字を抽出
-        max_estimates = np.argmax(s_softmax_output)
-        if max_estimates>=0:
-            st.header(f'あなたの書いた数字は「{max_estimates}」ですか？')
-
-            col1, col2 = st.columns(2)
-            with col1:
-                fig = plt.figure()
-                sns.heatmap(pd.DataFrame(ar_resize[0, 0, :, :]))
-                st.write(fig)
-                st.caption('28×28に変換')
-            with col2:
-                st.bar_chart(s_softmax_output.rename('各数字である確率'))
-        else:
-            pass        
+                col1, col2 = st.columns(2)
+                with col1:
+                    fig = plt.figure()
+                    sns.heatmap(pd.DataFrame(ar_resize))
+                    st.write(fig)
+                    st.caption('28×28に変換')
+                with col2:
+                    st.bar_chart(s_softmax_output.rename('各数字である確率'))
+    else:
+        pass        
         
 md = """
 # 所感
