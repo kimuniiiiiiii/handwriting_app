@@ -1,5 +1,40 @@
 version: '3'
 services:
+  frontend:
+    restart: always
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    # image: test
+    container_name: streamlit
+    working_dir: '/app'
+    networks: 
+      MLapps: 
+        aliases: 
+          - frontend.docker #"${alias_frontend}"
+    tty: true
+    volumes: 
+      - ./frontend:/app
+    ports: 
+      - '8501:8501'
+    command: streamlit run app.py
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    # image: backend
+    container_name: ml_fastapi
+    working_dir: '/app'
+    ports:
+      - 8000:8000
+    networks: 
+      MLapps: 
+        aliases: 
+          - backend.docker
+    volumes: 
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --reload
   # jupyter_notebook:
   #   restart: always
   #   build:
@@ -14,40 +49,6 @@ services:
   #     - '8888:8888'
   #   command: jupyter notebook --port=8888 --ip=0.0.0.0 --allow-root --NotebookApp.token=''
 
-  frontend:
-    restart: always
-    build: 
-      context: .
-      dockerfile: frontend/Dockerfile
-    # image: test
-    container_name: streamlit
-    working_dir: '/app'
-    networks: 
-      MLapps: 
-        aliases: 
-          - frontend.docker #"${alias}"
-    tty: true
-    volumes: 
-      - ./frontend:/app
-    ports: 
-      - '3333:8501'
-    command: streamlit run app.py
-
-  backend:
-    # build: 
-    #   context: .
-    #   dockerfile: backend/Dockerfile
-    image: backend
-    working_dir: '/app'
-    ports:
-      - 8000:8000
-    networks: 
-      MLapps: 
-        aliases: 
-          - backend.docker
-    volumes: 
-      - ./backend:/app
-    command: uvicorn main:app --host 0.0.0.0
 
 networks:
   MLapps:
