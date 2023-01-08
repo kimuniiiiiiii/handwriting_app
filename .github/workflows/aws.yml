@@ -38,7 +38,8 @@ env:
   ECS_CLUSTER: handwriting-app-cluster                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: task-definition1.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME_FRONTEND: handwriting-app-container           # set this to the name of the container in the
+  CONTAINER_NAME_FRONTEND: handwriting-app-frontend-container           # set this to the name of the container in the
+  CONTAINER_NAME_BACKEND: handwriting-app-backend-container           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 permissions:
