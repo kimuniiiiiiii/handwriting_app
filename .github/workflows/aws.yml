@@ -112,14 +112,14 @@ jobs:
         # image: ${{ steps.build-image.outputs.image_backend }}
         image: public.ecr.aws/o3c4e2b5/handwriting_app_backend:024964a54b55b035bb08329baa8eff9e528c1dcc
 
-    # - name: Modify Amazon ECS task definition with second container
-    #   id: render-app-container
-    #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-    #   with:
-    #     task-definition: ${{ steps.task-def.outputs.task-definition }}
-    #     container-name: ${{ env.CONTAINER_NAME_FRONTEND }}
-    #     # image: ${{ steps.build-image.outputs.image_frontend }}
-    #     image: public.ecr.aws/o3c4e2b5/handwriting_app_frontend:024964a54b55b035bb08329baa8eff9e528c1dcc
+    - name: Modify Amazon ECS task definition with second container
+      id: render-app-container
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        container-name: ${{ env.CONTAINER_NAME_FRONTEND }}
+        # image: ${{ steps.build-image.outputs.image_frontend }}
+        image: public.ecr.aws/o3c4e2b5/handwriting_app_frontend:024964a54b55b035bb08329baa8eff9e528c1dcc
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1

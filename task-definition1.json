@@ -1,7 +1,31 @@
 {
     "taskDefinition": {
-        "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:618166206139:task-definition/handwriting-app-task:4",
+        "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:618166206139:task-definition/handwriting-app-task:7",
         "containerDefinitions": [
+            {
+                "name": "handwriting-app-frontend-container",
+                "image": "public.ecr.aws/o3c4e2b5/handwriting_app_frontend:38694c3e72948e7c2286e38a477a0dc4b7cf3254",
+                "cpu": 0,
+                "portMappings": [
+                    {
+                        "containerPort": 8501,
+                        "hostPort": 8501,
+                        "protocol": "tcp"
+                    }
+                ],
+                "essential": true,
+                "environment": [],
+                "mountPoints": [],
+                "volumesFrom": [],
+                "logConfiguration": {
+                    "logDriver": "awslogs",
+                    "options": {
+                        "awslogs-group": "/ecs/handwriting-app-task",
+                        "awslogs-region": "ap-northeast-1",
+                        "awslogs-stream-prefix": "ecs"
+                    }
+                }
+            },
             {
                 "name": "handwriting-app-backend-container",
                 "image": "public.ecr.aws/o3c4e2b5/handwriting_app_backend:latest",
