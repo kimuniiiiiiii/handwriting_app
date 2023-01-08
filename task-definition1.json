@@ -3,7 +3,7 @@
         "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:618166206139:task-definition/handwriting-app-task:4",
         "containerDefinitions": [
             {
-                "name": "handwriting-app-container",
+                "name": "handwriting-app-frontend-container",
                 "image": "public.ecr.aws/o3c4e2b5/handwriting_app_frontend:38694c3e72948e7c2286e38a477a0dc4b7cf3254",
                 "cpu": 0,
                 "portMappings": [
@@ -27,7 +27,7 @@
                 }
             },
             {
-                "name": "handwriting-app-container-backend",
+                "name": "handwriting-app-backend-container",
                 "image": "public.ecr.aws/o3c4e2b5/handwriting_app_backend:latest",
                 "cpu": 0,
                 "portMappings": [
