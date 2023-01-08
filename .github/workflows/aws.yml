@@ -48,7 +48,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: production
+    environment: aws_fargate_deploy
 
     steps:
     - name: Checkout
