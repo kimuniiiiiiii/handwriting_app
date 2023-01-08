@@ -12,7 +12,8 @@ import json
 import requests
 header = {'Content-Type': 'application/json'}
 url3 = "http://localhost:8100/predict_cnn"
-# url3 = "http://backend.docker:8000/predict_cnn"
+# url3 = "http://172.0.0.1:8000/predict_cnn"
+# url3 = "http://backend:8000/predict_cnn"
 
 
 drawing_mode = 'freedraw'
@@ -26,7 +27,7 @@ max_estimates = -1
 
 
 def write():
-
+    
     # Tab
     tab1, tab2 = st.tabs(["App", "Overview"])
 
