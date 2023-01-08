@@ -94,14 +94,14 @@ jobs:
         # push it to ECR so that it can
         # be deployed to ECS.
         
-        # # frontend
-        # docker build -t $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG ./frontend
-        # docker push $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG
-        # echo "image_frontend=$ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG" >> $GITHUB_OUTPUT
-        # # backend
-        # docker build -t $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG ./backend
-        # docker push $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG
-        # echo "image_backend=$ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG" >> $GITHUB_OUTPUT
+        # frontend
+        docker build -t $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG ./frontend
+        docker push $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG
+        echo "image_frontend=$ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG" >> $GITHUB_OUTPUT
+        # backend
+        docker build -t $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG ./backend
+        docker push $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG
+        echo "image_backend=$ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
@@ -109,8 +109,8 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME_BACKEND }}
-        # image: ${{ steps.build-image.outputs.image_backend }}
-        image: public.ecr.aws/o3c4e2b5/handwriting_app_backend:024964a54b55b035bb08329baa8eff9e528c1dcc
+        image: ${{ steps.build-image.outputs.image_backend }}
+        # image: public.ecr.aws/o3c4e2b5/handwriting_app_backend:024964a54b55b035bb08329baa8eff9e528c1dcc
 
     - name: Modify Amazon ECS task definition with second container
       id: render-app-container
@@ -118,8 +118,8 @@ jobs:
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         container-name: ${{ env.CONTAINER_NAME_FRONTEND }}
-        # image: ${{ steps.build-image.outputs.image_frontend }}
-        image: public.ecr.aws/o3c4e2b5/handwriting_app_frontend:024964a54b55b035bb08329baa8eff9e528c1dcc
+        image: ${{ steps.build-image.outputs.image_frontend }}
+        # image: public.ecr.aws/o3c4e2b5/handwriting_app_frontend:024964a54b55b035bb08329baa8eff9e528c1dcc
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
