@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 import json
 import requests
 header = {'Content-Type': 'application/json'}
-# url3 = "http://localhost:8000/predict_cnn"
-url3 = "http://backend.docker:8000/predict_cnn"
+url3 = "http://localhost:8000/predict_cnn"
+# url3 = "http://backend.docker:8000/predict_cnn"
 
 
 drawing_mode = 'freedraw'
