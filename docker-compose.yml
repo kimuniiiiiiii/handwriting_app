@@ -12,12 +12,14 @@ services:
       MLapps: 
         aliases: 
           - frontend.docker #"${alias_frontend}"
+    depends_on:
+      - backend
     tty: true
     volumes: 
       - ./frontend:/app
     ports: 
       - '8501:8501'
-    command: streamlit run app.py
+    # command: streamlit run app.py
 
   backend:
     build: 
@@ -34,7 +36,8 @@ services:
           - backend.docker
     volumes: 
       - ./backend:/app
-    command: uvicorn main:app --host 0.0.0.0 --reload
+    # command: uvicorn main:app --host 0.0.0.0 --reload
+
   # jupyter_notebook:
   #   restart: always
   #   build:
