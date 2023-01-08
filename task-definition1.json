@@ -32,8 +32,8 @@
                 "cpu": 0,
                 "portMappings": [
                     {
-                        "containerPort": 8000,
-                        "hostPort": 8000,
+                        "containerPort": 8100,
+                        "hostPort": 8100,
                         "protocol": "tcp"
                     }
                 ],
