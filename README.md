@@ -1,4 +1,17 @@
-﻿# Description
+﻿# 利用技術
+- インフラ：
+    - AWS Fargateによるコンテナオーケストレーション
+    - Github Actionsにてpush時にFargateへ自動デプロイ
+- Backend
+    - torchによる深層学習モデル構築
+    - FastAPIによるAPIサーバー
+    - AWS fargateへデプロイ
+- Frontend
+    - streamlit
+- Machine Learning / Data Science
+    - Convolutional Neural Network
+
+# Description
 畳み込みニューラルネットワークによる手書き数字認識アプリです。
 
 学習データは28×28(＝784ピクセル)の60,000サンプルの手書き数字データベースである[MNIST](http://yann.lecun.com/exdb/mnist/)を利用。
